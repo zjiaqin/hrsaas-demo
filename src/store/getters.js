@@ -6,6 +6,7 @@ const getters = {
   // 在根级的getters上将name设置成公共的访问属性放出
   name: (state) => state.user.userInfo.username,
   userId: (state) => state.user.userInfo.userId,
-  staffPhoto: (state) => state.user.userInfo.staffPhoto
+  staffPhoto: (state) => state.user.userInfo.staffPhoto,
+  companyId: (state) => state.user.userInfo.companyId
 }
 export default getters
