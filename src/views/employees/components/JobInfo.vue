@@ -1,9 +1,7 @@
 <template>
   <div class="job-info">
     <!-- 基础信息 -->
-    <el-row type="flex" justify="center">
-      <el-buttom v-print="printObj" type="primary" size="small">打印</el-buttom>
-    </el-row>
+
     <el-form label-width="220px">
       <div class="block">
         <div class="title">基础信息</div>
