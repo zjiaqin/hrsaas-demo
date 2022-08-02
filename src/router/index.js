@@ -39,6 +39,7 @@ import attendancesRouter from './modules/attendances'
 import salarysRouter from './modules/salarys'
 import settingRouter from './modules/setting'
 import socialRouter from './modules/social'
+import userRouter from './modules/user'
 export const asyncRoutes = [
   approvalsRouter,
   departmentsRouter,
@@ -76,20 +77,20 @@ export const constantRoutes = [
     children: [
       {
         path: 'dashboard',
-        name: 'Dashboard',
+        name: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         meta: { title: '首页', icon: 'dashboard' }
       }
     ]
   },
-  { path: '*', redirect: '/404', hidden: true }
+  userRouter
 ]
 
 const createRouter = () =>
   new Router({
     // mode: 'history', // require service support
     scrollBehavior: () => ({ y: 0 }),
-    routes: [...constantRoutes, ...asyncRoutes]
+    routes: [...constantRoutes] // 改成只有静态路由
   })
 
 const router = createRouter()

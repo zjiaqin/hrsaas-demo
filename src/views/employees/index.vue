@@ -102,6 +102,7 @@
               <el-button
                 type="text"
                 size="small"
+                :disabled="!checkPermission('POINT-USER-UPDATE')"
                 @click="$router.push(`employees/detail/${row.id}`)"
               >
                 查看
@@ -109,8 +110,15 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
-              <el-button type="text" size="small" @click="delEmployee(row.id)">
+              <el-button type="text" size="small" @click="editRole(row.id)">
+                角色
+              </el-button>
+              <el-button
+                type="text"
+                size="small"
+                :disabled="!checkPermission('point-user-delete')"
+                @click="delEmployee(row.id)"
+              >
                 删除
               </el-button>
             </template>
@@ -142,11 +150,17 @@
           <canvas ref="myCanvas"></canvas>
         </el-row>
       </el-dialog>
+      <assign-role
+        ref="roleDialog"
+        :show-role-dialog.sync="showRoleDialog"
+        :user-id="userId"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import AssignRole from './components/AssignRole.vue'
 import QrCode from 'qrcode'
 import AddEmployee from './components/AddEmployee.vue'
 import EmployeeEnum from '@/api/constant/employees'
@@ -154,7 +168,8 @@ import { getEmployeeList, delEmployee } from '@/api/employees'
 import { formatDate } from '@/filters'
 export default {
   components: {
-    AddEmployee
+    AddEmployee,
+    AssignRole
   },
   data() {
     return {
@@ -169,13 +184,20 @@ export default {
       },
       loading: false,
       showDialog: false,
-      showCodeDialog: false
+      showCodeDialog: false,
+      showRoleDialog: false,
+      userId: ''
     }
   },
   created() {
     this.getEmployeeList()
   },
   methods: {
+    async editRole(id) {
+      this.userId = id
+      await this.$refs.roleDialog.getUserDetailById(id)
+      this.showRoleDialog = true
+    },
     showQrCode(url) {
       if (url) {
         this.showCodeDialog = true
